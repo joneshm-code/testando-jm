@@ -2,88 +2,252 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Arte Interativa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meu Site 2000s ✨</title>
+  <!-- Fonte pixelada (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      background: #000;
-      overflow: hidden;
+    :root{
+      --neo-pink:#ff67f9;
+      --neo-blue:#6cf1ff;
+      --neo-yellow:#fff16c;
+      --glass:#0a0a0fdd;
     }
-    canvas {
-      display: block;
+    html,body{
+      height:100%;
+      margin:0;
+      background:#000;
+      color:#fff;
+      font-family:"VT323", system-ui, monospace;
+      overflow-x:hidden;
+      cursor: url('assets/cursor.cur'), auto; /* opcional: troque pelo seu cursor .cur */
+    }
+
+    /* Estrelas em 3 camadas para vibe espacial */
+    body::before, body::after, .stars{
+      content:"";
+      position:fixed;
+      inset:0;
+      background-repeat:repeat;
+      pointer-events:none;
+      z-index:-1;
+    }
+    /* pontos finos */
+    body::before{
+      background-image: radial-gradient(2px 2px at 20px 30px, #fff 50%, transparent 51%),
+                        radial-gradient(2px 2px at 80px 120px, #fff 50%, transparent 51%),
+                        radial-gradient(2px 2px at 200px 160px, #fff 50%, transparent 51%),
+                        radial-gradient(2px 2px at 320px 40px, #fff 50%, transparent 51%);
+      background-size: 200px 200px;
+      animation: drift 120s linear infinite;
+      opacity:.6;
+    }
+    /* pontos médios */
+    body::after{
+      background-image: radial-gradient(3px 3px at 50px 20px, #aaf 50%, transparent 51%),
+                        radial-gradient(3px 3px at 140px 90px, #ffa 50%, transparent 51%),
+                        radial-gradient(3px 3px at 260px 140px, #faf 50%, transparent 51%);
+      background-size: 300px 300px;
+      animation: drift 180s linear infinite reverse;
+      opacity:.5;
+    }
+    .stars{
+      background-image: radial-gradient(1px 1px at 10px 10px, #8ff 50%, transparent 51%),
+                        radial-gradient(1px 1px at 100px 60px, #f8f 50%, transparent 51%),
+                        radial-gradient(1px 1px at 180px 180px, #ff8 50%, transparent 51%);
+      background-size: 150px 150px;
+      animation: drift 90s linear infinite;
+      opacity:.7;
+    }
+    @keyframes drift{to{transform: translate3d(-10%, -10%, 0);}}
+
+    .wrap{
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 16px 80px;
+      position:relative;
+    }
+
+    /* Header estilo 2000s */
+    .title{
+      font-family:"Press Start 2P", system-ui, monospace;
+      font-size: clamp(20px, 5vw, 40px);
+      text-align:center;
+      letter-spacing:2px;
+      text-shadow: 0 0 6px var(--neo-blue), 0 0 12px var(--neo-pink), 0 0 24px var(--neo-yellow);
+      margin-top: 12px;
+    }
+
+    .marquee{
+      margin:18px auto 28px;
+      max-width: 920px;
+      border: 2px dashed #fff5;
+      background: linear-gradient(135deg, #1a0022aa, #001a22aa);
+      box-shadow: 0 0 24px #f0f;
+      overflow:hidden;
+      position:relative;
+    }
+    .marquee p{
+      display:inline-block;
+      padding:12px 0;
+      white-space:nowrap;
+      animation: slide 18s linear infinite;
+      font-family:"Press Start 2P";
+      font-size: 12px;
+    }
+    @keyframes slide{from{transform:translateX(100%)} to{transform:translateX(-100%)}}
+
+    /* Cartão central com transparência (glass) */
+    .card{
+      background: var(--glass);
+      backdrop-filter: blur(6px);
+      border: 1px solid #ffffff33;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 40px #0008, inset 0 0 18px #fff2;
+    }
+
+    .toolbar{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-bottom: 16px;
+    }
+    .btn{
+      font-family:"Press Start 2P";
+      font-size:12px;
+      padding: 10px 14px;
+      border: 2px solid #fff8;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #2a0038, #001a2a);
+      box-shadow: 0 4px 0 #000, 0 0 12px #0ff8;
+      color:#fff;
+      text-decoration:none;
+      cursor:pointer;
+      transition: transform .08s ease, box-shadow .2s ease;
+    }
+    .btn:hover{ transform: translateY(-2px); }
+    .btn:active{ transform: translateY(2px); box-shadow: 0 1px 0 #000; }
+
+    /* GIF vitrine */
+    .gif-wrap{
+      display:grid;
+      place-items:center;
+      margin: 12px 0 8px;
+    }
+    .gif-wrap img{
+      width:min(320px, 80vw);
+      image-rendering: pixelated; /* vibe retro */
+      border: 4px ridge #fff8;
+      box-shadow: 0 0 24px #f0f8;
+      border-radius: 8px;
+    }
+
+    footer{
+      margin-top: 18px;
+      text-align:center;
+      font-size: 18px;
+      opacity:.9;
+    }
+    a.link {
+      color: var(--neo-blue);
+      text-decoration: underline wavy;
     }
   </style>
 </head>
 <body>
-  <canvas id="canvas"></canvas>
+  <div class="stars"></div>
+  <div class="wrap">
+    <h1 class="title">★ Oiiiiiiiii ★</h1>
+
+    <div class="marquee"><p>Bem-vindo ao meu site com glitter, música e estrelas ✨ — clica em ▶ para tocar a trilha — brilha, brilha, estrelinha...</p></div>
+
+    <div class="card">
+      <div class="toolbar">
+        <button class="btn" id="playBtn" aria-pressed="false">▶ Tocar música</button>
+        <button class="btn" id="pauseBtn">⏸ Pausar</button>
+        <button class="btn" id="sparkBtn">✨ Sparkle</button>
+      </div>
+
+      <div class="gif-wrap">
+        <!-- Substitua o src abaixo pelo caminho do seu GIF (ex.: assets/meu-gif.gif) -->
+        <img id="heroGif" src="assets/snoopy.gif" alt="GIF 2000s" />
+      </div>
+
+      <p style="text-align:center;margin:4px 0 0;">Mee tooooo.</p>
+
+      <!-- Áudio de fundo -->
+      <!-- Troque o src por sua música MP3 (ex.: assets/minha-musica.mp3). Deixe loop se quiser infinito. -->
+      <audio id="bgm" src="assets/musicameetoo.mp3" preload="none" loop></audio>
+    </div>
+
+    <footer>
+      Feito com <span style="color:var(--neo-pink)">♥</span> e nostalgia. 
+      <a class="link" href="#" onclick="toggleTheme();return false;">alternar tema</a>
+    </footer>
+  </div>
 
   <script>
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
+    // === Player retrô ===
+    const bgm = document.getElementById('bgm');
+    const playBtn = document.getElementById('playBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
 
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-
-    const particles = [];
-    const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#1dd1a1', '#5f27cd'];
-
-    class Particle {
-      constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.size = Math.random() * 5 + 1;
-        this.color = colors[Math.floor(Math.random() * colors.length)];
-        this.speedX = Math.random() * 3 - 1.5;
-        this.speedY = Math.random() * 3 - 1.5;
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.size *= 0.96; // encolhe lentamente
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-      }
-    }
-
-    function handleParticles() {
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-        if (particles[i].size < 0.3) {
-          particles.splice(i, 1);
-          i--;
-        }
-      }
-    }
-
-    canvas.addEventListener('mousemove', function(event) {
-      for (let i = 0; i < 5; i++) {
-        particles.push(new Particle(event.x, event.y));
+    playBtn.addEventListener('click', async () => {
+      try {
+        await bgm.play();
+        playBtn.setAttribute('aria-pressed','true');
+        playBtn.textContent = '🔊 Tocando';
+      } catch (e) {
+        alert('O navegador bloqueou o autoplay. Toque novamente para iniciar.');
       }
     });
-
-    function animate() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-      ctx.fillRect(0, 0, width, height);
-      handleParticles();
-      requestAnimationFrame(animate);
-    }
-
-    window.addEventListener('resize', function() {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
+    pauseBtn.addEventListener('click', () => {
+      bgm.pause();
+      playBtn.setAttribute('aria-pressed','false');
+      playBtn.textContent = '▶ Tocar música';
     });
 
-    animate();
+    // === Sparkles no clique (partículas simples) ===
+    const sparkleColors = ['#fff', '#ff9bff', '#9bffff', '#fff59b'];
+    function sparkle(x, y){
+      for(let i=0;i<14;i++){
+        const s = document.createElement('span');
+        const size = 2 + Math.random()*6;
+        s.style.cssText = `position:fixed;left:${x}px;top:${y}px;width:${size}px;height:${size}px;background:${sparkleColors[Math.floor(Math.random()*sparkleColors.length)]};border-radius:50%;box-shadow:0 0 8px #fff8;pointer-events:none;mix-blend-mode:screen;`;
+        document.body.appendChild(s);
+        const dx = (Math.random()-0.5)*140;
+        const dy = (Math.random()-0.5)*140;
+        s.animate([
+          { transform: 'translate(0,0)', opacity: 1 },
+          { transform: `translate(${dx}px, ${dy}px)`, opacity: 0 }
+        ], { duration: 900 + Math.random()*600, easing: 'cubic-bezier(.2,.6,.2,1)' })
+        .onfinish = () => s.remove();
+      }
+    }
+    document.getElementById('sparkBtn').addEventListener('click', (e)=>{
+      const rect = e.target.getBoundingClientRect();
+      sparkle(rect.left + rect.width/2, rect.top);
+    });
+    document.addEventListener('click', (e)=>{
+      if(!e.target.classList.contains('btn')) sparkle(e.clientX, e.clientY);
+    }, {passive:true});
+
+    // === Alternar tema (variação de cor leve) ===
+    let alt=false;
+    function toggleTheme(){
+      alt=!alt;
+      document.documentElement.style.setProperty('--neo-pink', alt? '#ffb3ff':'#ff67f9');
+      document.documentElement.style.setProperty('--neo-blue', alt? '#b3f5ff':'#6cf1ff');
+      document.documentElement.style.setProperty('--neo-yellow', alt? '#fff7b3':'#fff16c');
+    }
+
+    // Acessibilidade básica: tecla Espaço/Enter no play
+    playBtn.addEventListener('keyup', (e)=>{ if(e.key===' '||e.key==='Enter') playBtn.click(); });
   </script>
 </body>
 </html>
