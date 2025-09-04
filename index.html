@@ -22,10 +22,9 @@
       color:#fff;
       font-family:"VT323", system-ui, monospace;
       overflow-x:hidden;
-      cursor: url('assets/cursor.cur'), auto; /* opcional: troque pelo seu cursor .cur */
+      cursor: url('assets/cursor.cur'), auto;
     }
 
-    /* Estrelas em 3 camadas para vibe espacial */
     body::before, body::after, .stars{
       content:"";
       position:fixed;
@@ -34,29 +33,20 @@
       pointer-events:none;
       z-index:-1;
     }
-    /* pontos finos */
     body::before{
-      background-image: radial-gradient(2px 2px at 20px 30px, #fff 50%, transparent 51%),
-                        radial-gradient(2px 2px at 80px 120px, #fff 50%, transparent 51%),
-                        radial-gradient(2px 2px at 200px 160px, #fff 50%, transparent 51%),
-                        radial-gradient(2px 2px at 320px 40px, #fff 50%, transparent 51%);
+      background-image: radial-gradient(2px 2px at 20px 30px, #fff 50%, transparent 51%), radial-gradient(2px 2px at 80px 120px, #fff 50%, transparent 51%), radial-gradient(2px 2px at 200px 160px, #fff 50%, transparent 51%), radial-gradient(2px 2px at 320px 40px, #fff 50%, transparent 51%);
       background-size: 200px 200px;
       animation: drift 120s linear infinite;
       opacity:.6;
     }
-    /* pontos médios */
     body::after{
-      background-image: radial-gradient(3px 3px at 50px 20px, #aaf 50%, transparent 51%),
-                        radial-gradient(3px 3px at 140px 90px, #ffa 50%, transparent 51%),
-                        radial-gradient(3px 3px at 260px 140px, #faf 50%, transparent 51%);
+      background-image: radial-gradient(3px 3px at 50px 20px, #aaf 50%, transparent 51%), radial-gradient(3px 3px at 140px 90px, #ffa 50%, transparent 51%), radial-gradient(3px 3px at 260px 140px, #faf 50%, transparent 51%);
       background-size: 300px 300px;
       animation: drift 180s linear infinite reverse;
       opacity:.5;
     }
     .stars{
-      background-image: radial-gradient(1px 1px at 10px 10px, #8ff 50%, transparent 51%),
-                        radial-gradient(1px 1px at 100px 60px, #f8f 50%, transparent 51%),
-                        radial-gradient(1px 1px at 180px 180px, #ff8 50%, transparent 51%);
+      background-image: radial-gradient(1px 1px at 10px 10px, #8ff 50%, transparent 51%), radial-gradient(1px 1px at 100px 60px, #f8f 50%, transparent 51%), radial-gradient(1px 1px at 180px 180px, #ff8 50%, transparent 51%);
       background-size: 150px 150px;
       animation: drift 90s linear infinite;
       opacity:.7;
@@ -70,7 +60,6 @@
       position:relative;
     }
 
-    /* Header estilo 2000s */
     .title{
       font-family:"Press Start 2P", system-ui, monospace;
       font-size: clamp(20px, 5vw, 40px);
@@ -99,7 +88,6 @@
     }
     @keyframes slide{from{transform:translateX(100%)} to{transform:translateX(-100%)}}
 
-    /* Cartão central com transparência (glass) */
     .card{
       background: var(--glass);
       backdrop-filter: blur(6px);
@@ -133,7 +121,6 @@
     .btn:hover{ transform: translateY(-2px); }
     .btn:active{ transform: translateY(2px); box-shadow: 0 1px 0 #000; }
 
-    /* GIF vitrine */
     .gif-wrap{
       display:grid;
       place-items:center;
@@ -141,7 +128,7 @@
     }
     .gif-wrap img{
       width:min(320px, 80vw);
-      image-rendering: pixelated; /* vibe retro */
+      image-rendering: pixelated;
       border: 4px ridge #fff8;
       box-shadow: 0 0 24px #f0f8;
       border-radius: 8px;
@@ -174,15 +161,12 @@
       </div>
 
       <div class="gif-wrap">
-        <!-- Substitua o src abaixo pelo caminho do seu GIF (ex.: assets/meu-gif.gif) -->
         <img id="heroGif" src="assets/snoopy.gif" alt="GIF 2000s" />
       </div>
 
       <p style="text-align:center;margin:4px 0 0;">Mee tooooo.</p>
 
-      <!-- Áudio de fundo -->
-      <!-- Troque o src por sua música MP3 (ex.: assets/minha-musica.mp3). Deixe loop se quiser infinito. -->
-      <audio id="bgm" src="assets/musicameetoo.mp3" preload="none" loop></audio>
+      <audio id="bgm" src="assets/musicameetoo.mp3" loop></audio>
     </div>
 
     <footer>
@@ -192,27 +176,28 @@
   </div>
 
   <script>
-    // === Player retrô ===
     const bgm = document.getElementById('bgm');
     const playBtn = document.getElementById('playBtn');
     const pauseBtn = document.getElementById('pauseBtn');
 
-    playBtn.addEventListener('click', async () => {
-      try {
-        await bgm.play();
+    function playAudio() {
+      bgm.muted = false;
+      bgm.play().then(() => {
         playBtn.setAttribute('aria-pressed','true');
         playBtn.textContent = '🔊 Tocando';
-      } catch (e) {
-        alert('O navegador bloqueou o autoplay. Toque novamente para iniciar.');
-      }
-    });
+      }).catch(() => {
+        alert('Clique para iniciar a música.');
+      });
+    }
+
+    playBtn.addEventListener('click', playAudio);
+    playBtn.addEventListener('touchstart', playAudio);
     pauseBtn.addEventListener('click', () => {
       bgm.pause();
       playBtn.setAttribute('aria-pressed','false');
       playBtn.textContent = '▶ Tocar música';
     });
 
-    // === Sparkles no clique (partículas simples) ===
     const sparkleColors = ['#fff', '#ff9bff', '#9bffff', '#fff59b'];
     function sparkle(x, y){
       for(let i=0;i<14;i++){
@@ -226,28 +211,4 @@
           { transform: 'translate(0,0)', opacity: 1 },
           { transform: `translate(${dx}px, ${dy}px)`, opacity: 0 }
         ], { duration: 900 + Math.random()*600, easing: 'cubic-bezier(.2,.6,.2,1)' })
-        .onfinish = () => s.remove();
-      }
-    }
-    document.getElementById('sparkBtn').addEventListener('click', (e)=>{
-      const rect = e.target.getBoundingClientRect();
-      sparkle(rect.left + rect.width/2, rect.top);
-    });
-    document.addEventListener('click', (e)=>{
-      if(!e.target.classList.contains('btn')) sparkle(e.clientX, e.clientY);
-    }, {passive:true});
-
-    // === Alternar tema (variação de cor leve) ===
-    let alt=false;
-    function toggleTheme(){
-      alt=!alt;
-      document.documentElement.style.setProperty('--neo-pink', alt? '#ffb3ff':'#ff67f9');
-      document.documentElement.style.setProperty('--neo-blue', alt? '#b3f5ff':'#6cf1ff');
-      document.documentElement.style.setProperty('--neo-yellow', alt? '#fff7b3':'#fff16c');
-    }
-
-    // Acessibilidade básica: tecla Espaço/Enter no play
-    playBtn.addEventListener('keyup', (e)=>{ if(e.key===' '||e.key==='Enter') playBtn.click(); });
-  </script>
-</body>
-</html>
+        .onfinish = () => s
